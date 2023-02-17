@@ -91,6 +91,9 @@ if (
         console.log('Message received', payload);
 
         navigator.serviceWorker.ready.then(function(reg) {
+
+            console.log('nav', reg);
+
             reg.getNotifications().then(function(n) {
                 for (let i = 0; i < n.length; i += 1) {
                     if (n[i].data && n[i].data.id && n[i].data.id === id) {
