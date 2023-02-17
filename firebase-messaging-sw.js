@@ -38,7 +38,7 @@ self.addEventListener('notificationclick', function(event) {
   }));
 });
 
-self.addEventListener('push', event => {
+self.addEventListener('push', function(event) {
   let opts = event.data.json();
 
   if (opts.data && opts.data.action) {
