@@ -89,21 +89,6 @@ if (
     // handle catch the notification on current page
     messaging.onMessage(function(payload) {
         console.log('Message received', payload);
-
-        navigator.serviceWorker.register('/firebase-messaging-sw.js');
-        navigator.serviceWorker.ready.then(function(reg) {
-
-            console.log('nav', reg);
-
-            reg.getNotifications().then(function(n) {
-                for (let i = 0; i < n.length; i += 1) {
-                    if (n[i].data && n[i].data.id && n[i].data.id === id) {
-                        console.log('nav', n[i]);
-                    }
-                }
-            });
-        });
-
         info.show();
         info_message
             .text('')
@@ -112,20 +97,20 @@ if (
         ;
 
         // register fake ServiceWorker for show notification on mobile devices
-//        navigator.serviceWorker.register('/firebase-messaging-sw.js');
-//        Notification.requestPermission(function(permission) {
-//            if (permission === 'granted') {
-//                navigator.serviceWorker.ready.then(function(registration) {
-//                  // Copy data object to get parameters in the click handler
-//                  payload.data.data = JSON.parse(JSON.stringify(payload.data));
-//
-//                  registration.showNotification(payload.data.title, payload.data);
-//                }).catch(function(error) {
-//                    // registration failed :(
-//                    showError('ServiceWorker registration failed', error);
-//                });
-//            }
-//        });
+        navigator.serviceWorker.register('/firebase-messaging-sw.js');
+        Notification.requestPermission(function(permission) {
+            if (permission === 'granted') {
+                navigator.serviceWorker.ready.then(function(registration) {
+                  // Copy data object to get parameters in the click handler
+                  payload.data.data = JSON.parse(JSON.stringify(payload.data));
+
+                  registration.showNotification(payload.data.title, payload.data);
+                }).catch(function(error) {
+                    // registration failed :(
+                    showError('ServiceWorker registration failed', error);
+                });
+            }
+        });
     });
 
     // Callback fired if Instance ID token is updated.
@@ -298,4 +283,25 @@ function showError(error, error_data) {
         alert_message.html(error);
         console.error(error);
     }
+}
+
+navigator.serviceWorker.addEventListener('message', function(event) {
+
+  console.log('Support Notification', 'add message listener');
+
+  if (event.data && event.data.action && event.data.action === 'close') {
+    closeNotification(event.data.id);
+  }
+});
+
+function closeNotification(id) {
+  navigator.serviceWorker.ready.then(function(reg) {
+    reg.getNotifications().then(function(n) {
+      for (let i = 0; i < n.length; i += 1) {
+        if (n[i].data && n[i].data.id && n[i].data.id === id) {
+          n[i].close();
+        }
+      }
+    });
+  });
 }
