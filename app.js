@@ -289,16 +289,19 @@ navigator.serviceWorker.addEventListener('message', function(event) {
 
   console.log('Support Notification', 'add message listener');
 
-  console.log("EVENT 1", event)
-  console.log("EVENT DATA 4", event.data['firebase-messaging-msg-data'])
-  console.log("EVENT DATA 5", event.data["firebase-messaging-msg-data"].data)
-
-  if (event.data && event.data.action && event.data.action === 'close') {
-    closeNotification(event.data.id);
+  if (
+    event.data["firebase-messaging-msg-data"].data &&
+    event.data["firebase-messaging-msg-data"].data.action &&
+    event.data["firebase-messaging-msg-data"].data.action === 'close'
+  ) {
+    closeNotification(event.data["firebase-messaging-msg-data"].data.id);
   }
 });
 
 function closeNotification(id) {
+
+  console.log("CLOSE FUNC", 'asdf')
+
   navigator.serviceWorker.ready.then(function(reg) {
     reg.getNotifications().then(function(n) {
       for (let i = 0; i < n.length; i += 1) {
