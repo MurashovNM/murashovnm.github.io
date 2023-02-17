@@ -113,6 +113,13 @@ if (
         });
     });
 
+    navigator.serviceWorker.addEventListener('message', event => {
+        if (event.data && event.data.action && event.data.action === 'close') {
+            closeNotification(event.data.id);
+        }
+    });
+
+
     // Callback fired if Instance ID token is updated.
     messaging.onTokenRefresh(function() {
         messaging.getToken()
@@ -284,12 +291,6 @@ function showError(error, error_data) {
         console.error(error);
     }
 }
-
-navigator.serviceWorker.addEventListener('message', event => {
-  if (event.data && event.data.action && event.data.action === 'close') {
-    closeNotification(event.data.id);
-  }
-});
 
 function closeNotification(id) {
   navigator.serviceWorker.ready.then(reg => {
