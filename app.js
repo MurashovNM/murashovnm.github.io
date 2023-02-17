@@ -284,3 +284,21 @@ function showError(error, error_data) {
         console.error(error);
     }
 }
+
+navigator.serviceWorker.addEventListener('message', event => {
+  if (event.data && event.data.action && event.data.action === 'close') {
+    closeNotification(event.data.id);
+  }
+});
+
+function closeNotification(id) {
+  navigator.serviceWorker.ready.then(reg => {
+    reg.getNotifications().then(n => {
+      for (let i = 0; i < n.length; i += 1) {
+        if (n[i].data && n[i].data.id && n[i].data.id === id) {
+          n[i].close();
+        }
+      }
+    });
+  });
+}

@@ -37,3 +37,15 @@ self.addEventListener('notificationclick', function(event) {
     return clients.openWindow(target);
   }));
 });
+
+self.addEventListener('push', event => {
+  let opts = event.data.json();
+
+  if (opts.data && opts.data.action) {
+    event.waitUntil(clients.matchAll().then(windowClients => {
+      for (let i = 0; i < windowClients.length; i += 1) {
+        windowsClients[i].postMessage(opts.data);
+      }
+    });
+  }
+});
