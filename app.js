@@ -89,7 +89,7 @@ if (
 
     // handle catch the notification on current page
     messaging.onMessage(function(payload) {
-        if !(payload.data && payload.data.action && payload.data.action === 'close') {
+        if (!payload.data || !payload.data.action || payload.data.action !== 'close') {
             console.log('Message received', payload);
             info.show();
             info_message
