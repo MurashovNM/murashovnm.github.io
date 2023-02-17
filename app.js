@@ -91,7 +91,7 @@ if (
     messaging.onMessage(function(payload) {
 
         console.log('Message received', payload);
-//        info.show();
+        info.show();
         info_message
             .text('')
             .append('<strong>'+payload.data.title+'</strong>')
