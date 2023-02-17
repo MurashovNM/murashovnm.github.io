@@ -89,15 +89,15 @@ if (
 
     // handle catch the notification on current page
     messaging.onMessage(function(payload) {
-        if (!payload.data || !payload.data.action || payload.data.action !== 'close') {
-            console.log('Message received', payload);
-            info.show();
-            info_message
-                .text('')
-                .append('<strong>'+payload.data.title+'</strong>')
-                .append('<em>'+payload.data.body+'</em>')
-            ;
-        }
+
+        console.log('Message received', payload);
+        info.show();
+        info_message
+            .text('')
+            .append('<strong>'+payload.data.title+'</strong>')
+            .append('<em>'+payload.data.body+'</em>')
+        ;
+
     });
 
     // Callback fired if Instance ID token is updated.
@@ -273,25 +273,37 @@ function showError(error, error_data) {
 }
 
 navigator.serviceWorker.addEventListener('message', function(event) {
-    var data = event.data["firebase-messaging-msg-data"].data
 
-    if (data && data.action && data.action === 'close') {
-        closeNotification(data.id);
-    }
+  let data =
+
+  if (
+    event.data["firebase-messaging-msg-data"].data &&
+    event.data["firebase-messaging-msg-data"].data.action &&
+    event.data["firebase-messaging-msg-data"].data.action === 'close'
+  ) {
+    closeNotification(event.data["firebase-messaging-msg-data"].data.id);
+  }
 });
 
 function closeNotification(id) {
-    navigator.serviceWorker.ready.then(function(reg) {
-        reg.getNotifications().then(function(notifications) {
-            for (let i = 0; i < notifications.length; i += 1) {
-                if (
-                    notifications[i].data &&
-                    notifications[i].data.id &&
-                    notifications[i].data.id === id
-                ) {
-                    notifications[i].close();
-                }
-            }
-        });
+
+  console.log("CLOSE FUNC", '33')
+
+  navigator.serviceWorker.ready.then(function(reg) {
+
+    console.log('nav', 'ready')
+
+
+
+    reg.getNotifications().then(function(notifications) {
+
+      console.log('NOTIF', notifications)
+
+      for (let i = 0; i < notifications.length; i += 1) {
+        if (notifications[i].data && notifications[i].data.id && notifications[i].data.id === id) {
+          notifications[i].close();
+        }
+      }
     });
+  });
 }
