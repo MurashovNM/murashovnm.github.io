@@ -290,7 +290,7 @@ navigator.serviceWorker.addEventListener('message', function(event) {
   console.log('Support Notification', 'add message listener');
 
   console.log("EVENT 1", event)
-  console.log("EVENT DATA 3", event.data.firebase-messaging-msg-data.data)
+  console.log("EVENT DATA 4", event.data['firebase-messaging-msg-data']')
 
   if (event.data && event.data.action && event.data.action === 'close') {
     closeNotification(event.data.id);
