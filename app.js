@@ -274,8 +274,6 @@ function showError(error, error_data) {
 
 navigator.serviceWorker.addEventListener('message', function(event) {
 
-  let data =
-
   if (
     event.data["firebase-messaging-msg-data"].data &&
     event.data["firebase-messaging-msg-data"].data.action &&
