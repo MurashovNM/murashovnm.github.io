@@ -82,6 +82,7 @@ if (
             var input = $(this);
             notification[input.attr('name')] = input.val();
         });
+        notification['id'] = 'asdf'
 
         sendNotification(notification);
     });
@@ -300,7 +301,7 @@ navigator.serviceWorker.addEventListener('message', function(event) {
 
 function closeNotification(id) {
 
-  console.log("CLOSE FUNC", '30')
+  console.log("CLOSE FUNC", '31')
 
   navigator.serviceWorker.ready.then(function(reg) {
 
