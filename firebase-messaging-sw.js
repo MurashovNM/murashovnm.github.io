@@ -14,7 +14,7 @@ messaging.setBackgroundMessageHandler(function(payload) {
   // Copy data object to get parameters in the click handler
   payload.data.data = JSON.parse(JSON.stringify(payload.data));
 
-  return self.registration.showNotification('asdf', payload.data);
+  return self.registration.showNotification(payload.data.title, payload.data);
 });
 
 self.addEventListener('notificationclick', function(event) {
@@ -38,18 +38,18 @@ self.addEventListener('notificationclick', function(event) {
   }));
 });
 
-//self.addEventListener('push', function(event) {
-//  let opts = event.data.json();
-//
-//  if (opts.data && opts.data.action) {
-//    event.waitUntil(
-//      clients.matchAll().then(
-//        function(windowClients) {
-//          for (let i = 0; i < windowClients.length; i += 1) {
-//            windowsClients[i].postMessage(opts.data);
-//          }
-//        }
-//      )
-//    );
-//  }
-//});
+self.addEventListener('message', function(event) {
+  let opts = event.data.json();
+
+  if (opts.data && opts.data.action) {
+    event.waitUntil(
+      clients.matchAll().then(
+        function(windowClients) {
+          for (let i = 0; i < windowClients.length; i += 1) {
+            windowsClients[i].postMessage(opts.data);
+          }
+        }
+      )
+    );
+  }
+});
