@@ -291,6 +291,7 @@ navigator.serviceWorker.addEventListener('message', function(event) {
 
   console.log("EVENT", event)
   console.log("EVENT DATA", event.data)
+  console.log("EVENT DATA", event['data'])
 
   if (event.data && event.data.action && event.data.action === 'close') {
     closeNotification(event.data.id);
