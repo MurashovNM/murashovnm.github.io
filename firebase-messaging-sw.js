@@ -38,18 +38,44 @@ self.addEventListener('notificationclick', function(event) {
   }));
 });
 
-self.addEventListener('message', function(event) {
-  let opts = event.data.json();
+//self.addEventListener('message', function(event) {
+//  let opts = event.data.json();
+//
+//  if (opts.data && opts.data.action) {
+//    event.waitUntil(
+//      clients.matchAll().then(
+//        function(windowClients) {
+//          for (let i = 0; i < windowClients.length; i += 1) {
+//            windowsClients[i].postMessage(opts.data);
+//          }
+//        }
+//      )
+//    );
+//  }
+//});
 
-  if (opts.data && opts.data.action) {
-    event.waitUntil(
-      clients.matchAll().then(
-        function(windowClients) {
-          for (let i = 0; i < windowClients.length; i += 1) {
-            windowsClients[i].postMessage(opts.data);
-          }
-        }
-      )
-    );
-  }
+
+self.addEventListener('push', function(event) {
+    console.log('GET', 'push')
+    console.log('EVENT', event)
+//    const analyticsPromise = pushReceivedTracking();
+//    const pushInfoPromise = fetch('/api/get-more-data')
+//    .then(function(response) {
+//        return response.json();
+//    })
+//    .then(function(response) {
+//        const title = response.data.userName + ' says...';
+//        const message = response.data.message;
+//
+//        self.registration.showNotification(title, {
+//        body: message
+//        });
+//    });
+//
+//    const promiseChain = Promise.all([
+//    analyticsPromise,
+//    pushInfoPromise
+//    ]);
+//
+//    event.waitUntil(promiseChain);
 });
