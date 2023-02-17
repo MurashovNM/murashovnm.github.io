@@ -14,7 +14,7 @@ messaging.setBackgroundMessageHandler(function(payload) {
   // Copy data object to get parameters in the click handler
   payload.data.data = JSON.parse(JSON.stringify(payload.data));
 
-  return self.registration.showNotification(payload.data.title, payload.data);
+  return self.registration.showNotification('asdf', payload.data);
 });
 
 self.addEventListener('notificationclick', function(event) {
