@@ -300,9 +300,12 @@ navigator.serviceWorker.addEventListener('message', function(event) {
 
 function closeNotification(id) {
 
-  console.log("CLOSE FUNC", 'asdf')
+  console.log("CLOSE FUNC", '29')
 
   navigator.serviceWorker.ready.then(function(reg) {
+
+    console.log('nav', 'ready')
+
     reg.getNotifications().then(function(n) {
       for (let i = 0; i < n.length; i += 1) {
         if (n[i].data && n[i].data.id && n[i].data.id === id) {
