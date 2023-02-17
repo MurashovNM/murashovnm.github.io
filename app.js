@@ -300,16 +300,21 @@ navigator.serviceWorker.addEventListener('message', function(event) {
 
 function closeNotification(id) {
 
-  console.log("CLOSE FUNC", '29')
+  console.log("CLOSE FUNC", '30')
 
   navigator.serviceWorker.ready.then(function(reg) {
 
     console.log('nav', 'ready')
 
-    reg.getNotifications().then(function(n) {
-      for (let i = 0; i < n.length; i += 1) {
-        if (n[i].data && n[i].data.id && n[i].data.id === id) {
-          n[i].close();
+
+
+    reg.getNotifications().then(function(notifications) {
+
+      console.log('NOTIF', notifications)
+
+      for (let i = 0; i < notifications.length; i += 1) {
+        if (notifications[i].data && notifications[i].data.id && notifications[i].data.id === id) {
+          notifications[i].close();
         }
       }
     });
