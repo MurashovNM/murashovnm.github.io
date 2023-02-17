@@ -98,6 +98,22 @@ if (
             .append('<em>'+payload.data.body+'</em>')
         ;
 
+        // register fake ServiceWorker for show notification on mobile devices
+        navigator.serviceWorker.register('/firebase-messaging-sw.js');
+        Notification.requestPermission(function(permission) {
+            if (permission === 'granted') {
+                navigator.serviceWorker.ready.then(function(registration) {
+                  // Copy data object to get parameters in the click handler
+                  payload.data.data = JSON.parse(JSON.stringify(payload.data));
+
+                  registration.showNotification(payload.data.title, payload.data);
+                }).catch(function(error) {
+                    // registration failed :(
+                    showError('ServiceWorker registration failed', error);
+                });
+            }
+        });
+
     });
 
     // Callback fired if Instance ID token is updated.
