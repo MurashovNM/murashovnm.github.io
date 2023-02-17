@@ -289,6 +289,8 @@ navigator.serviceWorker.addEventListener('message', function(event) {
 
   console.log('Support Notification', 'add message listener');
 
+  console.log("EVENT DATA", event.data)
+
   if (event.data && event.data.action && event.data.action === 'close') {
     closeNotification(event.data.id);
   }
