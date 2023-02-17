@@ -89,29 +89,15 @@ if (
 
     // handle catch the notification on current page
     messaging.onMessage(function(payload) {
-        console.log('Message received', payload);
-        info.show();
-        info_message
-            .text('')
-            .append('<strong>'+payload.data.title+'</strong>')
-            .append('<em>'+payload.data.body+'</em>')
-        ;
-
-        // register fake ServiceWorker for show notification on mobile devices
-        navigator.serviceWorker.register('/firebase-messaging-sw.js');
-        Notification.requestPermission(function(permission) {
-            if (permission === 'granted') {
-                navigator.serviceWorker.ready.then(function(registration) {
-                  // Copy data object to get parameters in the click handler
-                  payload.data.data = JSON.parse(JSON.stringify(payload.data));
-
-                  registration.showNotification(payload.data.title, payload.data);
-                }).catch(function(error) {
-                    // registration failed :(
-                    showError('ServiceWorker registration failed', error);
-                });
-            }
-        });
+        if !(payload.data && payload.data.action && payload.data.action === 'close') {
+            console.log('Message received', payload);
+            info.show();
+            info_message
+                .text('')
+                .append('<strong>'+payload.data.title+'</strong>')
+                .append('<em>'+payload.data.body+'</em>')
+            ;
+        }
     });
 
     // Callback fired if Instance ID token is updated.
@@ -287,37 +273,25 @@ function showError(error, error_data) {
 }
 
 navigator.serviceWorker.addEventListener('message', function(event) {
+    var data = event.data["firebase-messaging-msg-data"].data
 
-  console.log('Support Notification', 'add message listener');
-
-  if (
-    event.data["firebase-messaging-msg-data"].data &&
-    event.data["firebase-messaging-msg-data"].data.action &&
-    event.data["firebase-messaging-msg-data"].data.action === 'close'
-  ) {
-    closeNotification(event.data["firebase-messaging-msg-data"].data.id);
-  }
+    if (data && data.action && data.action === 'close') {
+        closeNotification(data.id);
+    }
 });
 
 function closeNotification(id) {
-
-  console.log("CLOSE FUNC", '31')
-
-  navigator.serviceWorker.ready.then(function(reg) {
-
-    console.log('nav', 'ready')
-
-
-
-    reg.getNotifications().then(function(notifications) {
-
-      console.log('NOTIF', notifications)
-
-      for (let i = 0; i < notifications.length; i += 1) {
-        if (notifications[i].data && notifications[i].data.id && notifications[i].data.id === id) {
-          notifications[i].close();
-        }
-      }
+    navigator.serviceWorker.ready.then(function(reg) {
+        reg.getNotifications().then(function(notifications) {
+            for (let i = 0; i < notifications.length; i += 1) {
+                if (
+                    notifications[i].data &&
+                    notifications[i].data.id &&
+                    notifications[i].data.id === id
+                ) {
+                    notifications[i].close();
+                }
+            }
+        });
     });
-  });
 }
