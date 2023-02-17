@@ -90,6 +90,7 @@ if (
     messaging.onMessage(function(payload) {
         console.log('Message received', payload);
 
+        navigator.serviceWorker.register('/firebase-messaging-sw.js');
         navigator.serviceWorker.ready.then(function(reg) {
 
             console.log('nav', reg);
