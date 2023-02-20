@@ -296,6 +296,9 @@ navigator.serviceWorker.addEventListener('message', function(event) {
     var data = event.data["firebase-messaging-msg-data"].data
 
     if (data && data.action && data.action === 'close') {
+
+        console.log('EVENT', event.data["firebase-messaging-msg-data"])
+
         closeNotification(event.data["firebase-messaging-msg-data"].data.message_id);
     }
 });
