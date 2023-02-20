@@ -304,6 +304,9 @@ function closeNotification(id) {
     navigator.serviceWorker.ready.then(function(reg) {
         reg.getNotifications().then(function(notifications) {
             for (let i = 0; i < notifications.length; i += 1) {
+
+                console.log('ntf', notifications[i])
+
                 if (
                     notifications[i].data &&
                     notifications[i].data.id &&
