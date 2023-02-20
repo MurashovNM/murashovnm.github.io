@@ -296,7 +296,7 @@ navigator.serviceWorker.addEventListener('message', function(event) {
     var data = event.data["firebase-messaging-msg-data"].data
 
     if (data && data.action && data.action === 'close') {
-        closeNotification(event.data["firebase-messaging-msg-data"].data.id);
+        closeNotification(event.data["firebase-messaging-msg-data"].data.message_id);
     }
 });
 
@@ -304,11 +304,7 @@ function closeNotification(id) {
     navigator.serviceWorker.ready.then(function(reg) {
         reg.getNotifications().then(function(notifications) {
             for (let i = 0; i < notifications.length; i += 1) {
-                if (
-                    notifications[i].data &&
-                    notifications[i].data.id &&
-                    notifications[i].data.id === id
-                ) {
+                if (notifications[i].fcmMessageId === id) {
                     notifications[i].close();
                 }
             }
