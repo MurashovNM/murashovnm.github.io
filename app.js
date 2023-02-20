@@ -304,6 +304,9 @@ function closeNotification(id) {
     navigator.serviceWorker.ready.then(function(reg) {
         reg.getNotifications().then(function(notifications) {
             for (let i = 0; i < notifications.length; i += 1) {
+
+                console.log('NOTIFY', notification[i])
+
                 if (notifications[i].fcmMessageId === id) {
                     notifications[i].close();
                 }
