@@ -1,5 +1,6 @@
 // Firebase Configurations
 var firebaseConfig = {
+    projectId: "fmc-test-14150",
     messagingSenderId: "636475170145",
 };
 // Initializing Firebase App
