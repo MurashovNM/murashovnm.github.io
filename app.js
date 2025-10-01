@@ -242,6 +242,7 @@ function showError(error, error_data) {
 }
 
 navigator.serviceWorker.addEventListener('message', function(event) {
+    console.log('close event', event)
     var data = event.data["firebase-messaging-msg-data"].data
 
     if (data && data.action && data.action === 'close') {
