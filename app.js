@@ -243,10 +243,10 @@ function showError(error, error_data) {
 
 navigator.serviceWorker.addEventListener('message', function(event) {
     console.log('close event', event)
-    var data = event.data["firebase-messaging-msg-data"].data
+    var data = event.data.firebaseMessaging.payload.data
 
     if (data && data.action && data.action === 'close') {
-        closeNotification(event.data["firebase-messaging-msg-data"].data.messageId);
+        closeNotification(data.messageId);
     }
 });
 
